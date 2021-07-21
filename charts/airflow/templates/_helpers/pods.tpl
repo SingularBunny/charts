@@ -132,6 +132,10 @@ EXAMPLE USAGE: {{ include "airflow.init_container.install_pip_packages" (dict "R
       pip install --user {{ range .extraPipPackages }}{{ . | quote }} {{ end }} && \
       echo "copying '/home/airflow/.local/*' to '/opt/home-airflow-local'..." && \
       cp -r /home/airflow/.local/* /opt/home-airflow-local
+  envFrom:
+    {{- include "airflow.envFrom" . | indent 4 }}
+  env:
+    {{- include "airflow.env" . | indent 4 }}
   volumeMounts:
     - name: home-airflow-local
       mountPath: /opt/home-airflow-local
